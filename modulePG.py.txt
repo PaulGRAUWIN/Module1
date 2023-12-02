@@ -1,0 +1,88 @@
+
+# Fonction carré
+def f_square (val_1):
+  square= val_1*val_1 #Pas grand chose à expliquer
+  return square
+
+# Focntion cube
+def f_cube (val_1):
+  cube = val_1*val_1*val_1 #Idem
+  return cube
+
+# Fonction valeur absolue
+def f_absolue (val_1):
+  if val_1 < 0:
+    val_1 = val_1*-1  #Inversion si val_1 est négatif
+  return val_1
+
+# Fonction factorielle
+def f_factorielle (val_1):
+  factorielle = 1                 #Définition de factorielle 0
+  for i in range (1,val_1+1):     #Augmentation d'une unité pour val_1 à partir de 1
+    factorielle = factorielle*i
+  return factorielle
+
+# Fonction average
+def f_average (list_1):
+  taille = len(list_1)            #Taille de list_1 pour la boucle for et la moyenne
+  somme = 0
+  for i in range(0,taille):
+    somme = somme + list_1[i]
+  average = somme/taille
+  return average
+
+# Fonction minimum
+def f_minimum (list_1):
+  minimum = list_1[0]             #Définition du minimum comme le premier terme de la liste
+  taille = len(list_1)            #Taille de list_1 pour le range
+  for i in range (1,taille):      #Balayage de tous les nombres de la liste
+    if minimum > list_1[i]:
+      minimum = list_1[i]          #Remplacement du minimum
+  return minimum
+
+# Fonction maximum
+# Commentaires similaires à fonction minimum
+def f_maximum (list_1):
+  maximum = list_1[0]
+  taille = len(list_1)
+  for i in range (1,taille):
+    if maximum < list_1[i]:
+      maximum = list_1[i]
+  return maximum
+
+# Fonction mode
+def f_mode (list_1):
+  taille_list = len(list_1)                   #Récupération de la taille de la liste pour le décompte
+
+  #Première partie - Decompte des éléments
+  list_tronquee = list(set(list_1))           #Conversion de la liste en un set pour éliminer les valeurs doublons puis Conversion en liste pour pouvoir utiliser l'index des termes (pas d'index avec un set)
+  list_decompte = list(list_tronquee)         #Liste // à liste tronquée qui sera utile pour le décompte (ça aurait été plus simple avec Numpy!)
+  taille_list_t = len(list_tronquee)          #Récupération de la taille de la liste tronquée
+
+
+  for i in range(0,taille_list_t):            #Pour chaque terme de list_tronquee
+    count_temp = 0                            #count_temp est un compteur temporaire
+    for j in range (0,taille_list):
+      if list_tronquee[i] == list_1[j]:       #Decompte de chaque terme au sein de list_1, list_tronquee sert de référence
+        count_temp = count_temp +1
+    list_decompte[i] = count_temp             #Remplissage de la liste de decompte
+
+  print(list_tronquee)
+  print(list_decompte)
+
+  #Seconde partie - Identification du ou des modes à partir du decompte
+  list_modes = [0]                            #Initialisation de la liste de sortie
+  list_temp = [0]                             #Initialisation d'une liste temporaire qui pourra être additionnée à la liste de sortie si plusieurs modes sont identifiés
+  list_modes[0] = list_tronquee[0]            #Première valeur pour la liste des modes
+  maximum = list_decompte[0]                  #maximum est une variable qui servira à identifier la valeur de list_decompte la plus élevée
+
+  for k in range(1,taille_list_t):            #Balayage de la liste tronquee
+    if list_decompte[k] == maximum:           #Condition 1 : Si il y a plusieurs modes
+      list_temp[0] = list_tronquee[k]
+      list_modes = list_modes + list_temp     #Addition d'une liste temporaire et de la liste de sortie (list_modes)
+    elif list_decompte[k] > maximum:          #Condition 2 : Si une valeur a une occurence plus élevée
+      list_modes = [0]                        #Effacement de la liste de sortie et retour à une liste de 1 élement
+      list_modes[0]= list_tronquee[k]         #Remplacement de l'élément 1
+      maximum = list_decompte[k]              #Mise à jour du maximum
+
+  return list_modes                           #Sortie (enfin!)
